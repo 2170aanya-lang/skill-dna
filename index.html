@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skill DNA - Performance-Based Strength Profiler</title>
+    <!-- Favicon configurations for browser tabs, bookmarks, and mobile browsers -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128' width='128' height='128'%3E%3Cdefs%3E%3ClinearGradient id='dnaGradLeft' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23A855F7' /%3E%3Cstop offset='100%25' stop-color='%236366F1' /%3E%3C/linearGradient%3E%3ClinearGradient id='dnaGradRight' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%233B82F6' /%3E%3Cstop offset='100%25' stop-color='%2300D4FF' /%3E%3C/linearGradient%3E%3ClinearGradient id='aiNetworkGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300D4FF' /%3E%3Cstop offset='100%25' stop-color='%2322C55E' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cstyle%3E.dna-rung %7B stroke: rgba(120, 130, 150, 0.3); stroke-width: 4; stroke-linecap: round; %7D .dna-strand-1 %7B stroke: url(%23dnaGradLeft); stroke-width: 7; stroke-linecap: round; fill: none; %7D .dna-strand-2 %7B stroke: url(%23dnaGradRight); stroke-width: 7; stroke-linecap: round; fill: none; %7D .network-node %7B fill: url(%23aiNetworkGrad); %7D .network-line %7B stroke: url(%23aiNetworkGrad); stroke-width: 3.5; stroke-linecap: round; opacity: 0.9; %7D .network-mesh %7B stroke: url(%23aiNetworkGrad); stroke-width: 2; stroke-linecap: round; opacity: 0.45; fill: none; %7D @media (prefers-color-scheme: light) %7B .dna-rung %7B stroke: rgba(15, 23, 42, 0.22); %7D %7D%3C/style%3E%3Cline class='dna-rung' x1='24' y1='32' x2='46' y2='32' /%3E%3Cline class='dna-rung' x1='12' y1='44' x2='58' y2='44' /%3E%3Cline class='dna-rung' x1='24' y1='54' x2='46' y2='54' /%3E%3Cline class='dna-rung' x1='24' y1='76' x2='46' y2='76' /%3E%3Cline class='dna-rung' x1='12' y1='86' x2='58' y2='86' /%3E%3Cline class='dna-rung' x1='24' y1='98' x2='46' y2='98' /%3E%3Cpath class='dna-strand-1' d='M 35,22 Q 10,43.5 35,65 T 35,108' /%3E%3Cpath class='dna-strand-2' d='M 35,22 Q 60,43.5 35,65 T 35,108' /%3E%3Cline class='network-mesh' x1='112' y1='40' x2='118' y2='55' /%3E%3Cline class='network-mesh' x1='118' y1='55' x2='120' y2='72' /%3E%3Cline class='network-mesh' x1='120' y1='72' x2='114' y2='90' /%3E%3Cline class='network-mesh' x1='114' y1='90' x2='98' y2='102' /%3E%3Cline class='network-line' x1='92' y1='65' x2='112' y2='40' /%3E%3Cline class='network-line' x1='92' y1='65' x2='118' y2='55' /%3E%3Cline class='network-line' x1='92' y1='65' x2='120' y2='72' /%3E%3Cline class='network-line' x1='92' y1='65' x2='114' y2='90' /%3E%3Cline class='network-line' x1='92' y1='65' x2='98' y2='102' /%3E%3Cline class='network-line' x1='92' y1='65' x2='74' y2='52' /%3E%3Cline class='network-line' x1='92' y1='65' x2='74' y2='78' /%3E%3Ccircle cx='112' cy='40' r='5' class='network-node' /%3E%3Ccircle cx='118' cy='55' r='5' class='network-node' /%3E%3Ccircle cx='120' cy='72' r='6' class='network-node' /%3E%3Ccircle cx='114' cy='90' r='5' class='network-node' /%3E%3Ccircle cx='98' cy='102' r='5' class='network-node' /%3E%3Ccircle cx='74' cy='52' r='4.5' class='network-node' /%3E%3Ccircle cx='74' cy='78' r='4.5' class='network-node' /%3E%3Ccircle cx='92' cy='65' r='11' class='network-node' /%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -266,9 +270,9 @@
                 type="email" 
                 id="auth-email" 
                 required
-                class="w-full bg-brandBg/80 border border-white/10 focus:border-brandSecondary rounded-xl px-4 py-3.5 text-brandText placeholder:text-brandMuted/40 outline-none transition-all duration-300 text-sm focus:ring-1 focus:ring-brandSecondary/25"
+                class="w-full bg-white border border-white/10 focus:border-brandSecondary rounded-xl px-4 py-3.5 text-black placeholder-[#666666] caret-black outline-none transition-all duration-300 text-sm focus:ring-1 focus:ring-brandSecondary/25"
                 placeholder="you@school.com"
-                value="2170aanya@gmail.com"
+                value=""
               />
             </div>
             
@@ -279,9 +283,22 @@
                 id="auth-password" 
                 required
                 minlength="6"
-                class="w-full bg-brandBg/80 border border-white/10 focus:border-brandSecondary rounded-xl px-4 py-3.5 text-brandText placeholder:text-brandMuted/40 outline-none transition-all duration-300 text-sm focus:ring-1 focus:ring-brandSecondary/25"
+                class="w-full bg-white border border-white/10 focus:border-brandSecondary rounded-xl px-4 py-3.5 text-black placeholder-[#666666] caret-black outline-none transition-all duration-300 text-sm focus:ring-1 focus:ring-brandSecondary/25"
                 placeholder="••••••"
-                value="supersecretpassword123"
+                value=""
+              />
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-mono uppercase tracking-wider text-brandMuted mb-1.5 font-semibold">Confirm Password</label>
+              <input 
+                type="password" 
+                id="auth-confirm-password" 
+                required
+                minlength="6"
+                class="w-full bg-white border border-white/10 focus:border-brandSecondary rounded-xl px-4 py-3.5 text-black placeholder-[#666666] caret-black outline-none transition-all duration-300 text-sm focus:ring-1 focus:ring-brandSecondary/25"
+                placeholder="••••••"
+                value=""
               />
             </div>
 
@@ -601,7 +618,11 @@
               </p>
               
               <div class="flex flex-col gap-3">
-                <button onclick="triggerEmailReport(null, true)" class="w-full py-3.5 px-4 bg-gradient-to-r from-[#6D5DFC] to-[#5A4EDD] hover:scale-[1.01] transition-transform text-white rounded-xl font-bold text-xs font-mono tracking-widest uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#6D5DFC]/20">
+                <button onclick="downloadMarkdownReport()" class="w-full py-3.5 px-4 bg-gradient-to-r from-[#00D4FF] to-[#6D5DFC] hover:scale-[1.01] transition-transform text-white rounded-xl font-bold text-xs font-mono tracking-widest uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#00D4FF]/25 hover:shadow-[#00D4FF]/40">
+                  <i data-lucide="download-cloud" class="w-4 h-4"></i>
+                  Download My Report
+                </button>
+                <button onclick="triggerEmailReport(null, true)" class="w-full py-3.5 px-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:scale-[1.01] transition-transform text-white rounded-xl font-semibold text-xs font-mono tracking-widest uppercase flex items-center justify-center gap-2 cursor-pointer">
                   <i data-lucide="mail" class="w-4 h-4"></i>
                   Resend Email Report
                 </button>
@@ -818,6 +839,17 @@
         if (password.length < 6) {
           showToast("Weak Password", "Please define a password containing at least 6 characters.", "error");
           return;
+        }
+
+        if (mode === "signup") {
+          const confirmPasswordInput = document.getElementById('auth-confirm-password');
+          if (confirmPasswordInput) {
+            const confirmPassword = confirmPasswordInput.value;
+            if (password !== confirmPassword) {
+              showToast("Password Mismatch", "The passwords entered do not match. Please verify your typing.", "error");
+              return;
+            }
+          }
         }
 
         // Active notification
@@ -1712,16 +1744,13 @@ Calibrated safely with performance-based criteria. Complete website available at
             emailNoticeContainer.innerHTML = `
               <div class="flex flex-col gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs text-left shadow-sm">
                 <div class="flex items-center gap-2 font-semibold">
-                  <i data-lucide="alert-triangle" class="w-4 h-4 text-red-500 animate-pulse"></i>
-                  <span>Server Connection Deferred</span>
+                  <i data-lucide="alert-circle" class="w-4 h-4 text-red-500 animate-pulse"></i>
+                  <span>Delivery Issue</span>
                 </div>
-                <p class="text-[11px] text-brandMuted leading-relaxed">Could not reach the automated dispatcher. If you are running this page as a standalone file locally, click below to draft the email with your full results instantly inside your default mail app:</p>
+                <p class="text-[11px] text-brandMuted leading-relaxed">We couldn't send your report right now. Please try again in a few moments.</p>
                 <div class="flex flex-wrap gap-2 mt-1">
-                  <a href="${mailtoUrl}" target="_blank" class="px-3 py-1.5 bg-brandPrimary hover:bg-brandPrimary/80 text-white font-medium text-[10px] rounded-lg cursor-pointer transition-all inline-flex items-center gap-1.5 no-underline">
-                    <i data-lucide="mail-open" class="w-3.5 h-3.5"></i> Draft Email Locally
-                  </a>
-                  <button onclick="triggerEmailReport('${email}', true)" class="px-3 py-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-mono text-[10px] rounded-lg cursor-pointer transition-colors">
-                    Retry Server Send
+                  <button onclick="triggerEmailReport('${email}', true)" class="px-3.5 py-1.5 bg-gradient-to-r from-[#6D5DFC] to-[#5A4EDD] hover:scale-[1.01] transition-transform text-white text-[10px] rounded-lg cursor-pointer flex items-center gap-1.5">
+                    <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Retry Send
                   </button>
                 </div>
               </div>
@@ -1731,7 +1760,7 @@ Calibrated safely with performance-based criteria. Complete website available at
             }
           }
 
-          showToast("Offline Draft Active", "Using local mail app fallback to prepare your report dispatch.", "error");
+          showToast("Delivery Issue", "We couldn't send your report right now. Please try again.", "error");
         }
       }
 
@@ -1788,37 +1817,108 @@ Calibrated safely with performance-based criteria. Complete website available at
           return { domain: domain, score: scores[domain] };
         }).sort((a, b) => b.score - a.score);
 
-        let reportContent = `# Skill DNA Performance Analysis Profile Report\n\n`;
-        reportContent += `Generated: ${new Date().toLocaleDateString()}\n`;
-        reportContent += `Methodology: Natural Language Heuristic Evaluation Pipeline\n\n`;
+        const top3 = sortedDimensions.slice(0, 3);
+        const bottom3 = sortedDimensions.slice(sortedDimensions.length - 3).reverse();
+        const selectedGrade = localStorage.getItem('skilldna_grade') || "Grade 10";
+        const loggedUser = localStorage.getItem('skilldna_user');
+        const userObj = loggedUser ? JSON.parse(loggedUser) : null;
+        const studentName = userObj ? userObj.name : "Explorer";
+        const studentEmail = userObj ? userObj.email : "Not signed in";
+
+        let reportContent = `==================================================\n`;
+        reportContent += `              SKILL DNA PROFILE REPORT            \n`;
+        reportContent += `==================================================\n\n`;
+        reportContent += `Student Name : ${studentName}\n`;
+        reportContent += `Student Email: ${studentEmail}\n`;
+        reportContent += `Grade Level  : ${selectedGrade}\n`;
+        reportContent += `Dated        : ${new Date().toLocaleDateString()}\n\n`;
         
-        reportContent += `## Overall Strength Metrics\n`;
-        CHALLENGES.forEach(chall => {
-          const score = scores[chall.domain] || 50;
-          reportContent += `- **${chall.domain}**: ${score}/100\n`;
+        reportContent += `--------------------------------------------------\n`;
+        reportContent += `1. TOP 3 STRENGTHS\n`;
+        reportContent += `--------------------------------------------------\n`;
+        top3.forEach((strength, index) => {
+          reportContent += `Rank #${index + 1}: ${strength.domain} (Score: ${strength.score}/99)\n`;
+          const challRef = CHALLENGES.find(c => c.domain === strength.domain);
+          if (challRef) {
+            reportContent += `  Description: Your response logic exhibited high-volume structure and complex arguments matching benchmarks.\n`;
+          }
         });
-        
-        reportContent += `\n## Prime Strength Badges\n`;
-        reportContent += `1. **${sortedDimensions[0].domain}** (${sortedDimensions[0].score}/100)\n`;
-        reportContent += `2. **${sortedDimensions[1].domain}** (${sortedDimensions[1].score}/100)\n`;
-        reportContent += `3. **${sortedDimensions[2].domain}** (${sortedDimensions[2].score}/100)\n\n`;
+        reportContent += `\n`;
 
-        reportContent += `## Index Summary\n`;
-        reportContent += document.getElementById('diagnostic-summary-par').innerText + `\n\n`;
+        reportContent += `--------------------------------------------------\n`;
+        reportContent += `2. PERSONALIZED ANALYSIS & DIAGNOSTICS\n`;
+        reportContent += `--------------------------------------------------\n`;
+        const diagnosticSummaryPar = document.getElementById('diagnostic-summary-par');
+        if (diagnosticSummaryPar) {
+          reportContent += `Summary Index:\n  ${diagnosticSummaryPar.innerText}\n\n`;
+        }
 
-        reportContent += `\n---\nCreated on Skill DNA Diagnostic Engine. Find yours today.`;
+        const narrativeContainer = document.getElementById('personalized-narrative-report');
+        if (narrativeContainer) {
+          const blocks = narrativeContainer.querySelectorAll('div > div');
+          blocks.forEach(block => {
+            const h = block.querySelector('h5')?.innerText?.trim() || "";
+            const p = block.querySelector('p')?.innerText?.trim() || "";
+            if (h && p) {
+              reportContent += `[${h}]\n  ${p}\n\n`;
+            }
+          });
+        }
+
+        reportContent += `--------------------------------------------------\n`;
+        reportContent += `3. GROWTH OPPORTUNITIES\n`;
+        reportContent += `--------------------------------------------------\n`;
+        const CONSTRUCTIVE_ADVICE = {
+          "Analytical Reasoning": "Practice swift decision sprints. High analysis can occasionally create execution friction; trust your logical intuition to accelerate velocity.",
+          "Problem Solving": "Focus on document templates. Writing down steps when creating fixes allows teammates to replicate structures without needing guide calls.",
+          "Learning & Research": "Pair conceptual metaphors with technical specifications on day 1 to build ultimate authority side-by-side with your creativity.",
+          "Communication & Persuasion": "Anchor your persuasive energy with active listening pauses. This discovers hidden peer needs you can align to in school and team tasks.",
+          "Creativity & Innovation": "Anchor unique ideas with hard budget / raw material limits early on to protect original solutions from project design scope creep.",
+          "Strategic Thinking": "Divide your quarterly strategies into direct weekly action sprints. Combining high plans with immediate chores makes execution airtight.",
+          "Empathy & People Understanding": "Balance validation with objective rules. Explicit, fair expectations are also a powerful method of supporting a classmate.",
+          "Initiative & Leadership": "Avoid taking 100% of team burdens yourself when mates fall behind. Delegate specific tasks to support peer confidence and skip burnout."
+        };
+        bottom3.forEach((dim, idx) => {
+          const adviceText = CONSTRUCTIVE_ADVICE[dim.domain] || "Maintain progress sprints and map targets early.";
+          reportContent += `- Develop ${dim.domain}:\n  ${adviceText}\n\n`;
+        });
+
+        reportContent += `--------------------------------------------------\n`;
+        reportContent += `4. CAREER RECOMMENDATIONS\n`;
+        reportContent += `--------------------------------------------------\n`;
+        const careersGrid = document.getElementById('career-paths-grid');
+        if (careersGrid && careersGrid.children.length > 0) {
+          Array.from(careersGrid.children).forEach((cNode, index) => {
+            const cName = cNode.querySelector('h4')?.innerText || "";
+            const cDesc = cNode.querySelector('p')?.innerText || "";
+            const whyText = cNode.querySelector('div p')?.innerText?.replace("Why It Matches:", "")?.trim() || "";
+            reportContent += `Match #${index + 1}: ${cName}\n`;
+            reportContent += `  Description: ${cDesc}\n`;
+            if (whyText) {
+              reportContent += `  Reasoning: ${whyText}\n`;
+            }
+            reportContent += `\n`;
+          });
+        } else {
+          reportContent += `Suggested optimal careers include roles aligned with your primary core cognitive affinities in leadership, reasoning, and product design.\n`;
+        }
+
+        reportContent += `==================================================\n`;
+        reportContent += `      Skill DNA - Discover What You Are Built For\n`;
+        reportContent += `==================================================\n`;
 
         const blob = new Blob([reportContent], { type: 'text/markdown;charset=utf-8;' });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
+        const cleanName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
         link.setAttribute("href", url);
-        link.setAttribute("download", `SkillDNA_Report_${sortedDimensions[0].domain.replace(/\s+/g, '')}.md`);
+        link.setAttribute("download", `SkillDNA_${cleanName}_Report.txt`);
         link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        showToast("Markdown Report Saved", "Check your system's download files folder.");
+        showToast("Report Downloaded", "Your full Skill DNA report file has been generated and saved.");
       }
 
       // Simulated OAuth Handshake System State Machine & Custom Controller
