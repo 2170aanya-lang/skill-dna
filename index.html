@@ -668,17 +668,7 @@
 
     <!-- MAIN ASSESSMENT CONFIGS & LOGICS -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { 
-        getAuth, 
-        signInWithEmailAndPassword, 
-        createUserWithEmailAndPassword, 
-        GoogleAuthProvider, 
-        OAuthProvider, 
-        signInWithPopup, 
-        onAuthStateChanged, 
-        signOut 
-      } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
       // All 8 category challenge configurations
       const CHALLENGES = [
@@ -761,30 +751,46 @@
       let respuestas = Array(CHALLENGES.length).fill("");
       let scores = {};
 
-      // Firebase runtime properties
-      let firebaseApp = null;
-      let auth = null;
+      // Supabase runtime properties
+      let supabaseClient = null;
 
-      async function initFirebase() {
+      async function initSupabase() {
         try {
-          console.log("[SkillDNA] Retrieving Firebase configuration...");
-          const response = await fetch("/firebase-applet-config.json");
+          console.log("[SkillDNA] Retrieving Supabase configuration...");
+          const response = await fetch("/api/supabase-config");
           if (!response.ok) {
-            throw new Error("firebase-applet-config.json configuration is missing.");
+            throw new Error("Failed to load Supabase configurations.");
           }
           const config = await response.json();
           
-          firebaseApp = initializeApp(config);
-          auth = getAuth(firebaseApp);
-          console.log("[SkillDNA] Firebase connection established successfully!");
+          if (config.supabaseUrl && config.supabaseAnonKey) {
+            supabaseClient = createClient(config.supabaseUrl, config.supabaseAnonKey);
+            console.log("[SkillDNA] Supabase connection established successfully!");
 
-          // Set up auth state change listener
-          onAuthStateChanged(auth, (user) => {
-            console.log("[SkillDNA] Firebase Auth state changed:", user);
-            handleAuthStateChange(user);
-          });
+            // Check current session
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session?.user) {
+              handleAuthStateChange(session.user);
+            } else {
+              // Check cached user
+              const cachedUser = localStorage.getItem("skilldna_user");
+              if (cachedUser) {
+                handleAuthStateChange(JSON.parse(cachedUser));
+              } else {
+                handleAuthStateChange(null);
+              }
+            }
+
+            // Set up auth state change listener
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+              console.log("[SkillDNA] Supabase Auth state changed:", event, session);
+              handleAuthStateChange(session?.user || null);
+            });
+          } else {
+            throw new Error("Supabase config parameters are missing or default placeholder.");
+          }
         } catch (err) {
-          console.warn("[SkillDNA] Firebase deferred or local sandbox active:", err.message);
+          console.warn("[SkillDNA] Supabase deferred or local sandbox active:", err.message);
           
           // Graceful fallback for non-provisioned local previews
           const cachedUser = localStorage.getItem("skilldna_user");
@@ -802,8 +808,8 @@
 
         if (user) {
           const email = user.email;
-          const uid = user.uid || "local-sandbox-uid";
-          let name = user.displayName || email.split('@')[0];
+          const uid = user.id || user.uid || "local-sandbox-uid";
+          let name = user.user_metadata?.display_name || user.user_metadata?.full_name || user.displayName || email.split('@')[0];
           name = name.charAt(0).toUpperCase() + name.slice(1);
 
           localStorage.setItem('skilldna_user', JSON.stringify({ name, email, uid }));
@@ -849,33 +855,37 @@
         }
 
         // Active notification
-        showToast("Authenticating...", "Checking matching records via Firebase Authentication...");
+        showToast("Authenticating...", "Checking matching records via Supabase Authentication...");
 
-        if (auth) {
+        if (supabaseClient) {
           try {
             if (mode === "signin") {
-              const userCredential = await signInWithEmailAndPassword(auth, email, password);
+              const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+              });
+              if (error) throw error;
               showToast("Identity Verified", "Welcome back! Authentication sequence finalized.", "success");
             } else {
-              const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-              showToast("Account Created", "Secure account created successfully! Proceeding ahead.", "success");
+              const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                  data: {
+                    display_name: email.split('@')[0]
+                  }
+                }
+              });
+              if (error) throw error;
+              if (data?.user) {
+                showToast("Account Created", "Secure account created successfully! Proceeding ahead.", "success");
+              } else {
+                showToast("Verification Sent", "Please check your email inbox to verify your account confirmation.", "success");
+              }
             }
           } catch (e) {
-            console.error("Firebase Auth process error details:", e);
+            console.error("Supabase Auth process error details:", e);
             let errorMsg = e.message || "Failed authentication checks.";
-            if (e.code === "auth/email-already-in-use") {
-              errorMsg = "This email is already in use by another student.";
-            } else if (e.code === "auth/invalid-credential" || e.code === "auth/wrong-password") {
-              errorMsg = "Incorrect email address or password combination.";
-            } else if (e.code === "auth/user-not-found") {
-              errorMsg = "No student account found with this email.";
-            } else if (e.code === "auth/invalid-email") {
-              errorMsg = "The email address layout is formatted incorrectly.";
-            } else if (e.code === "auth/weak-password") {
-              errorMsg = "The password defined is too weak. Aim for 6+ characters.";
-            } else if (e.code === "auth/popup-blocked") {
-              errorMsg = "The sign-in popup window was blocked by your browser.";
-            }
             showToast("Failed Verification", errorMsg, "error");
           }
         } else {
@@ -886,20 +896,38 @@
             uid: "sandbox-uid"
           };
           handleAuthStateChange(sandboxUser);
-          showToast("Sandbox Session", "Local sandbox credential initialized (Firebase setup pending).");
+          showToast("Sandbox Session", "Local sandbox credential initialized (Supabase setup pending).");
         }
       }
 
       async function handleSocialLogin(providerName) {
         showToast("Authenticating", `Initializing secure cryptographically signed handshake with ${providerName}...`);
-        openOAuthSimulation(providerName);
+        if (supabaseClient) {
+          try {
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+              provider: providerName.toLowerCase() === 'google' ? 'google' : providerName.toLowerCase(),
+              options: {
+                redirectTo: window.location.origin
+              }
+            });
+            if (error) throw error;
+          } catch (e) {
+            console.error(e);
+            showToast("Social Sign In", "Auth redirect failed, initializing simulation.", "warning");
+            openOAuthSimulation(providerName);
+          }
+        } else {
+          openOAuthSimulation(providerName);
+        }
       }
 
       async function signOutUser() {
-        if (auth) {
+        if (supabaseClient) {
           try {
-            await signOut(auth);
+            await supabaseClient.auth.signOut();
             localStorage.removeItem('skilldna_user');
+            localStorage.removeItem('skilldna_scores');
+            localStorage.removeItem('skilldna_view');
             handleAuthStateChange(null);
             showToast("Logged Out", "Your active session has been cleanly severed from records.");
             resetToWelcome(null);
@@ -909,6 +937,8 @@
           }
         } else {
           localStorage.removeItem('skilldna_user');
+          localStorage.removeItem('skilldna_scores');
+          localStorage.removeItem('skilldna_view');
           handleAuthStateChange(null);
           showToast("Sandbox Closed", "Successfully severed active sandbox environment.");
           resetToWelcome(null);
@@ -946,8 +976,17 @@
           onResponseInput();
         }
 
-        // Setup Firebase Client
-        initFirebase();
+        // Setup Supabase Client
+        initSupabase();
+
+        // Restore active results session if present to ensure data reliability on refresh
+        const cachedScores = localStorage.getItem('skilldna_scores');
+        const cachedView = localStorage.getItem('skilldna_view');
+        if (cachedScores && cachedView === 'results') {
+          scores = JSON.parse(cachedScores);
+          document.getElementById('hero-view').classList.add('hidden');
+          displayResults();
+        }
       });
 
       function resetToWelcome(e) {
@@ -1588,9 +1627,126 @@
           lucide.createIcons();
         }
 
-        // 6. Trigger automatic email report transmission!
+        // 6. Cache state on results page for full data reliability on refresh
+        localStorage.setItem('skilldna_scores', JSON.stringify(scores));
+        localStorage.setItem('skilldna_view', 'results');
+
+        // 7. Persist complete assessment data structures directly to Supabase
+        saveAssessmentToSupabase();
+
+        // 8. Trigger automatic email report transmission!
         const emailAddress = userObj ? userObj.email : "2170aanya@gmail.com";
         triggerEmailReport(emailAddress);
+      }
+
+      async function saveAssessmentToSupabase() {
+        if (!supabaseClient) {
+          console.warn("[Supabase] Database client offline/sandbox active. Data persists locally.");
+          return;
+        }
+
+        const loggedUser = localStorage.getItem('skilldna_user');
+        if (!loggedUser) return;
+        const userObj = JSON.parse(loggedUser);
+        const userId = userObj.uid;
+        const email = userObj.email;
+        const name = userObj.name || email.split('@')[0];
+        const grade = localStorage.getItem('skilldna_grade') || "Grade 10";
+
+        try {
+          // 1. Sync User Profile in 'users' table
+          const userData = {
+            id: userId,
+            email: email,
+            full_name: name,
+            grade_level: grade,
+            last_login_at: new Date().toISOString()
+          };
+
+          console.log("[Supabase] Syncing user records...", userData);
+          const { error: userErr } = await supabaseClient
+            .from('users')
+            .upsert(userData, { onConflict: 'id' });
+
+          if (userErr) {
+            console.warn("[Supabase Warning] Sync user failed: ", userErr.message);
+          }
+
+          // 2. Insert into 'assessments' table
+          const assessmentId = crypto.randomUUID ? crypto.randomUUID() : 'assess-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+          const assessmentData = {
+            id: assessmentId,
+            user_id: userId,
+            completed_at: new Date().toISOString(),
+            assessment_version: "v1.0"
+          };
+
+          console.log("[Supabase] Preserving assessment record...", assessmentData);
+          const { error: assessErr } = await supabaseClient
+            .from('assessments')
+            .insert(assessmentData);
+
+          if (assessErr) {
+            console.warn("[Supabase Warning] Log assessment failed: ", assessErr.message);
+          }
+
+          // 3. Insert into 'responses' table
+          const responsesPayload = CHALLENGES.map((challenge, index) => {
+            return {
+              user_id: userId,
+              question_id: challenge.id.toString(),
+              question_category: challenge.domain,
+              user_response: respuestas[index] || "",
+              created_at: new Date().toISOString()
+            };
+          });
+
+          console.log("[Supabase] Syncing full responses array...", responsesPayload);
+          const { error: respErr } = await supabaseClient
+            .from('responses')
+            .insert(responsesPayload);
+
+          if (respErr) {
+            console.warn("[Supabase Warning] Sync responses array failed: ", respErr.message);
+          }
+
+          // 4. Insert into 'results' table
+          const sortedDimensions = Object.keys(scores).map(domain => {
+            return { domain: domain, score: scores[domain] };
+          }).sort((a, b) => b.score - a.score);
+          const top3 = sortedDimensions.slice(0, 3).map(x => `${x.domain} (${x.score})`);
+          const bottom3 = sortedDimensions.slice(sortedDimensions.length - 3).reverse().map(x => x.domain);
+
+          const narratives = {
+            thinking: document.getElementById('personalized-narrative-report')?.children[0]?.querySelector('p')?.innerText || "",
+            problemSolving: document.getElementById('personalized-narrative-report')?.children[1]?.querySelector('p')?.innerText || "",
+            communication: document.getElementById('personalized-narrative-report')?.children[2]?.querySelector('p')?.innerText || "",
+            learning: document.getElementById('personalized-narrative-report')?.children[3]?.querySelector('p')?.innerText || ""
+          };
+
+          const resultsData = {
+            user_id: userId,
+            top_3_strengths: top3,
+            growth_opportunities: bottom3,
+            personalized_analysis: JSON.stringify(narratives),
+            career_recommendations: top3,
+            completed_at: new Date().toISOString()
+          };
+
+          console.log("[Supabase] Archiving calibrated assessment results dataset...", resultsData);
+          const { error: resultsErr } = await supabaseClient
+            .from('results')
+            .insert(resultsData);
+
+          if (resultsErr) {
+            console.warn("[Supabase Warning] Sync results failed: ", resultsErr.message);
+          } else {
+            console.log("[Supabase] Data structures stored completely and safely!");
+          }
+
+        } catch (e) {
+          console.warn("[Supabase Database Warning] Safe-captured error:", e.message);
+        }
       }
 
       async function triggerEmailReport(selectedEmail, isResend = false) {
@@ -2554,6 +2710,8 @@ Calibrated safely with performance-based criteria. Complete website available at
         const confirmatn = confirm("Are you sure you want to reset the assessment? This will delete your current responses.");
         if (confirmatn) {
           localStorage.removeItem('skilldna_respuestas');
+          localStorage.removeItem('skilldna_scores');
+          localStorage.removeItem('skilldna_view');
           respuestas = Array(CHALLENGES.length).fill("");
           scores = {};
           resetToWelcome();
