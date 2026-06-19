@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skill DNA</title>
+    <!-- Browser Favicon and Touch Icon Configurations using the official Skill DNA logo asset -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,8 +198,9 @@
     <!-- MAIN NAVBAR -->
     <header class="no-print relative z-10 border-b border-white/5 bg-brandBg/60 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#" onclick="resetToWelcome(event)" id="logo-block" class="flex items-center gap-2 group">
-          <span class="text-2xl font-display font-bold tracking-tight text-white group-hover:text-brandSecondary transition-colors duration-300">Skill <span class="text-brandSecondary">DNA</span></span>
+        <a href="#" onclick="resetToWelcome(event)" id="logo-block" class="flex items-center gap-3 group">
+          <img src="/favicon.svg" alt="Skill DNA" class="w-10 h-10 rounded-xl shadow-lg shadow-black/40 transition-transform duration-300 group-hover:scale-105" />
+          <span class="text-xl font-bold tracking-tight text-white group-hover:text-brandSecondary transition-colors duration-300">Skill <span class="text-brandSecondary">DNA</span></span>
         </a>
 
         <!-- Status Light System Indicator -->
@@ -276,8 +280,9 @@
         <div class="glass-card rounded-3xl p-8 md:p-10 border border-white/10 relative overflow-hidden shadow-2xl">
           <div class="absolute -right-4 -top-4 w-24 h-24 bg-brandPrimary/5 rounded-full filter blur-xl"></div>
           
-          <!-- Text branding inside auth card -->
-          <div class="mb-6">
+          <!-- Logo and Text branding inside auth card -->
+          <div class="mb-6 flex flex-col items-center gap-3">
+            <img src="/favicon.svg" alt="Skill DNA" class="w-12 h-12 rounded-xl mx-auto shadow-xl object-contain" />
             <span class="text-3xl font-display font-bold text-white tracking-tight">Skill <span class="text-brandSecondary">DNA</span></span>
           </div>
 
@@ -562,7 +567,7 @@
           <div class="absolute inset-0 rounded-full border-4 border-dashed border-brandPrimary/20 animate-spin" style="animation-duration: 10s;"></div>
           <div class="absolute inset-2 rounded-full border-4 border-brandSecondary/20 border-t-brandSecondary animate-spin" style="animation-duration: 2s;"></div>
           <div class="absolute inset-5 rounded-full border-2 border-dotted border-white/10 animate-spin" style="animation-duration: 5s; animation-direction: reverse;"></div>
-          <span class="text-sm font-display font-bold text-[#00D4FF] relative animate-pulse tracking-wide uppercase">SKILL DNA</span>
+          <img src="/favicon.svg" alt="Skill DNA" class="w-14 h-14 rounded-xl relative animate-pulse object-contain shadow-lg" />
         </div>
 
         <h3 id="loader-status" class="font-display font-medium text-xl text-white mb-4">
@@ -3404,9 +3409,7 @@ Calibrated safely with performance-based criteria. Complete website available at
 
               <div class="max-w-md mx-auto p-5 bg-slate-900 border border-white/5 rounded-3xl space-y-4">
                 <div class="flex items-center gap-3 pb-4 border-b border-white/5">
-                  <div class="px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-display font-bold text-[#00D4FF] tracking-wider uppercase shrink-0 select-none">
-                    Skill DNA
-                  </div>
+                  <img src="/favicon.svg" alt="Skill DNA" class="w-8 h-8 rounded-lg object-contain shadow" />
                   <div>
                     <h5 class="text-xs font-bold text-white">Skill DNA Evaluation Node</h5>
                     <p class="text-[9px] text-brandSecondary font-mono">${window.location.host}</p>
@@ -3539,7 +3542,8 @@ Calibrated safely with performance-based criteria. Complete website available at
         } else if (oauthSimState.step === 7) {
           contentHtml = `
             <div class="space-y-6 text-center py-4">
-              <div class="py-3 px-6 rounded-2xl bg-white/5 border border-white/10 inline-block mx-auto mb-2 select-none">
+              <div class="py-3 px-6 rounded-2xl bg-white/5 border border-white/10 inline-flex items-center gap-3 mx-auto mb-2 select-none">
+                <img src="/favicon.svg" alt="Skill DNA" class="w-8 h-8 rounded-lg object-contain shadow" />
                 <span class="text-xl font-display font-bold text-white tracking-wider">Skill <span class="text-brandSecondary">DNA</span></span>
               </div>
 
